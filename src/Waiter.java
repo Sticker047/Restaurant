@@ -17,7 +17,7 @@ public class Waiter extends Thread {
         GOING
     }
 
-    public Status status;
+    public Status status = Status.WAITING;
 
     static {
         idCount = 0;
@@ -26,7 +26,6 @@ public class Waiter extends Thread {
     public Waiter(String name) {
         this.name = name;
         id = idCount++;
-        status = status.WAITING;
     }
 
     public void run() {

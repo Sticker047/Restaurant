@@ -9,7 +9,7 @@ public class Order {
 
     private String text;
 
-    private boolean actual = false;
+    private boolean actual;
 
     private Waiter waiter;
     private Consumer consumer;

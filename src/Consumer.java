@@ -37,21 +37,12 @@ public class Consumer extends Thread implements Drawable {
         try {
             while (!isInterrupted()) {
                 switch (status) {
-                    case LOOKING_FOR_TABLE -> {
-                        lookingForTable();
-                    }
-                    case WAITING -> {
-                        waiting();
-                    }
-                    case CREATE_ORDER -> {
-                        createOrder();
-                    }
-                    case EATING -> {
-                        eating();
-                    }
-                    case PAYING -> {
-                        paying();
-                    }
+                    case LOOKING_FOR_TABLE -> lookingForTable();
+                    case WAITING -> waiting();
+                    case CREATE_ORDER -> createOrder();
+                    case EATING -> eating();
+                    case PAYING -> paying();
+                    default -> throw new IllegalStateException("Unexpected value: " + status);
                 }
 
             }

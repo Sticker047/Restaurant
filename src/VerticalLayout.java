@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class VerticalLayout implements LayoutManager {
 
-    private Dimension size = new Dimension();
+    private final Dimension size = new Dimension();
 
     @Override
     public void addLayoutComponent(String name, Component comp) {
@@ -26,11 +26,11 @@ public class VerticalLayout implements LayoutManager {
 
     @Override
     public void layoutContainer(Container container) {
-        Component list[] = container.getComponents();
+        Component[] components = container.getComponents();
         int currentY = 10;
-        for (int i = 0; i < list.length; i++) {
-            Dimension pref = list[i].getPreferredSize();
-            list[i].setBounds(5, currentY, pref.width, pref.height);
+        for (Component component : components) {
+            Dimension pref = component.getPreferredSize();
+            component.setBounds(5, currentY, pref.width, pref.height);
             currentY += 5;
             currentY += pref.height;
         }
@@ -40,16 +40,16 @@ public class VerticalLayout implements LayoutManager {
         {
             Component[] list = c.getComponents();
             int maxWidth = 0;
-            for (int i = 0; i < list.length; i++) {
-                int width = list[i].getWidth();
+            for (Component component : list) {
+                int width = component.getWidth();
                 if (width > maxWidth)
                     maxWidth = width;
             }
             size.width = maxWidth + 5;
             int height = 0;
-            for (int i = 0; i < list.length; i++) {
+            for (Component component : list) {
                 height += 5;
-                height += list[i].getHeight();
+                height += component.getHeight();
             }
             size.height = height;
             return size;
