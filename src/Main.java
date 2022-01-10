@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Main {
 
-    public static final int waitersNumber = 5;
-    public static final int consumersNumber = 3;
+    public static final int waitersNumber = 2;
+    public static final int consumersNumber = 10;
 
     public static Waiter[] waiters;
     public static Consumer[] consumers;

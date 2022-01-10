@@ -56,7 +56,7 @@ public class Waiter extends Thread {
     }
 
     public void waiting(Consumer[] consumerList) throws InterruptedException {
-        sleep(getTimeSleep());
+        sleep(1000);
         for (Consumer value : consumerList) {
             {
                 if (value.getStatus() != Consumer.Status.WAITING) {
