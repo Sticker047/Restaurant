@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static java.lang.Thread.sleep;
-
 public class Main {
 
     public static final int waitersNumber = 5;
@@ -11,9 +9,9 @@ public class Main {
 
     public static Waiter[] waiters;
     public static Consumer[] consumers;
-    public static ArrayList<Order> orderList;
+    public static ArrayList<Order> orderList = new ArrayList<>();
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args){
 
         init(waitersNumber, consumersNumber);
 
@@ -24,16 +22,12 @@ public class Main {
             consumer.start();
         }
 
-        Window app = new Window(waiters, consumers, orderList);
+        Window app = new Window(waiters, consumers);
+        app.setVisible(true);
 
-        while (true) {
-            sleep(3000);
-            update();
+        while (app.isVisible()) {
+            app.update(waiters, consumers);
         }
-
-    }
-
-    public static void update() {
 
     }
 

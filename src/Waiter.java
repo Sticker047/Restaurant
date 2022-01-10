@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Random;
 
 public class Waiter extends Thread {
@@ -7,12 +5,10 @@ public class Waiter extends Thread {
     private static int idCount;
     private final int id;
     private final String name;
-    private Consumer currentConsumer;
 
     private enum Status {
         WAITING,
         GETTING_ORDER,
-        WAITING_FOOD,
         FULFILL_ORDER,
         GOING
     }
@@ -35,7 +31,6 @@ public class Waiter extends Thread {
                     case WAITING -> waiting(Main.consumers);
                     case GOING -> going();
                     case GETTING_ORDER -> gettingOrder();
-                    case WAITING_FOOD -> waitingFood();
                     case FULFILL_ORDER -> fulfillOrder();
                 }
 
@@ -48,55 +43,38 @@ public class Waiter extends Thread {
     public void going() throws InterruptedException {
         status = Status.GOING;
         sleep(getTimeSleep());
-
-        gettingOrder();
     }
 
-    public Order gettingOrder() throws InterruptedException {
-        status = Status.GETTING_ORDER;
-        Order order = writingOrder();
-        fulfillOrder();
-
-        return order;
+    public void gettingOrder() throws InterruptedException {
+        sleep(getTimeSleep());
+        status = Status.FULFILL_ORDER;
     }
 
     public void fulfillOrder() throws InterruptedException {
-        status = Status.FULFILL_ORDER;
         sleep(getTimeSleep());
-        status = Status.WAITING_FOOD;
+        status = Status.WAITING;
     }
 
-    public Order writingOrder() throws InterruptedException {
-        Order order = new Order(this, currentConsumer);
-        sleep(getTimeSleep());
-        return order;
-    }
-
-    public void waiting(Consumer @NotNull [] consumerList) throws InterruptedException {
+    public void waiting(Consumer[] consumerList) throws InterruptedException {
         sleep(getTimeSleep());
         for (Consumer value : consumerList) {
             {
                 if (value.getStatus() != Consumer.Status.WAITING) {
                     continue;
                 }
-                currentConsumer = value;
                 this.status = Status.GETTING_ORDER;
-                currentConsumer.createOrder();
+                value.createOrder();
                 break;
             }
         }
     }
 
-    public void waitingFood() throws InterruptedException {
-        sleep(getTimeSleep());
-    }
-
     public static int getTimeSleep() {
         final Random random = new Random();
-        int tm = random.nextInt(1000);
-        if (tm < 10)
+        int tm = random.nextInt(10000);
+        if (tm < 100)
             tm *= 100;
-        else if (tm < 100)
+        else if (tm < 1000)
             tm *= 10;
         return tm;
     }

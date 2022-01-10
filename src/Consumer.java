@@ -1,24 +1,17 @@
-public class Consumer extends Thread implements Drawable {
+public class Consumer extends Thread {
 
     private static int counting;
 
-    private String name;
-    private int account;
+    private final String name;
+    private final int account;
     private Status status;
-    private Waiter waiter;
-    private Order order;
-
-    @Override
-    public void draw(int x, int y) {
-
-    }
 
     public enum Status {
         LOOKING_FOR_TABLE,
         WAITING,
-        CREATE_ORDER,
         EATING,
         PAYING,
+        FINISHED
     }
 
     static {
@@ -29,7 +22,7 @@ public class Consumer extends Thread implements Drawable {
 
         account = counting++;
         this.name = name;
-        status = Status.WAITING;
+        status = Status.LOOKING_FOR_TABLE;
 
     }
 
@@ -39,9 +32,9 @@ public class Consumer extends Thread implements Drawable {
                 switch (status) {
                     case LOOKING_FOR_TABLE -> lookingForTable();
                     case WAITING -> waiting();
-                    case CREATE_ORDER -> createOrder();
                     case EATING -> eating();
                     case PAYING -> paying();
+                    case FINISHED -> {}
                     default -> throw new IllegalStateException("Unexpected value: " + status);
                 }
 
@@ -53,6 +46,7 @@ public class Consumer extends Thread implements Drawable {
 
     public void lookingForTable() throws InterruptedException {
         sleep(Waiter.getTimeSleep());
+        status = Status.WAITING;
     }
 
     public void waiting() throws InterruptedException {
@@ -60,16 +54,20 @@ public class Consumer extends Thread implements Drawable {
     }
 
     public void createOrder() {
-        order = new Order(waiter, this);
+        status = Status.EATING;
+        Order order = new Order();
         Main.orderList.add(order);
+
     }
 
     public void eating() throws InterruptedException {
         sleep(Waiter.getTimeSleep());
+        status = Status.PAYING;
     }
 
     public void paying() throws InterruptedException {
         sleep(Waiter.getTimeSleep());
+        status = Status.FINISHED;
     }
 
     public Status getStatus() {
