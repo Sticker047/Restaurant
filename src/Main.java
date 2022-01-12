@@ -4,29 +4,30 @@ import java.util.Random;
 
 public class Main {
 
-    public static final int waitersNumber = 2;
-    public static final int consumersNumber = 10;
+    public static final int waitersNumber = 5;
+    public static final int consumersNumber = 1;
 
-    public static Waiter[] waiters;
-    public static Consumer[] consumers;
+    public static ArrayList<Waiter> waiterArrayList;
+    public static ArrayList<Consumer> consumerArrayList;
     public static ArrayList<Order> orderList = new ArrayList<>();
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         init(waitersNumber, consumersNumber);
 
-        for (Waiter waiter : waiters) {
+        for (Waiter waiter : waiterArrayList) {
             waiter.start();
         }
-        for (Consumer consumer : consumers) {
+        for (Consumer consumer : consumerArrayList) {
             consumer.start();
         }
 
-        Window app = new Window(waiters, consumers);
+        Window app = new Window(waiterArrayList, consumerArrayList);
         app.setVisible(true);
 
         while (app.isVisible()) {
-            app.update(waiters, consumers);
+            app.update(waiterArrayList, consumerArrayList);
+            addConsumer();
         }
 
     }
@@ -48,14 +49,22 @@ public class Main {
 
     public static void init(int waitersNumber, int customersNumber) {
 
-        waiters = new Waiter[waitersNumber];
+        waiterArrayList = new ArrayList<>();
         for (int i = 0; i < waitersNumber; i++) {
-            waiters[i] = new Waiter(nameFactory());
+            waiterArrayList.add(new Waiter(nameFactory()));
         }
 
-        consumers = new Consumer[customersNumber];
+        consumerArrayList = new ArrayList<>();
         for (int i = 0; i < customersNumber; i++) {
-            consumers[i] = new Consumer(nameFactory());
+            consumerArrayList.add(new Consumer(nameFactory()));
         }
+    }
+
+    public static void addConsumer() {
+
+//        Random random = new Random(6);
+//        if (random.nextInt() <= 5) return;
+//
+        consumerArrayList.add(new Consumer(nameFactory()));
     }
 }

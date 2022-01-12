@@ -13,7 +13,7 @@ public class Order {
 
 
     public String toString() {
-        return " id = " + id;
+        return String.format(" %s = ", id);
     }
 
 }

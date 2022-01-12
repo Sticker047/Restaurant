@@ -75,7 +75,7 @@ public class Consumer extends Thread {
     }
 
     public String toString() {
-        return name + " account = " + account + " " + status;
+        return String.format("%-12s", name) + " account = " + account + "  " + status;
     }
 
 }

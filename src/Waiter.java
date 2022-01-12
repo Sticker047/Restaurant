@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Waiter extends Thread {
@@ -28,7 +29,7 @@ public class Waiter extends Thread {
         try {
             while (!isInterrupted()) {
                 switch (status) {
-                    case WAITING -> waiting(Main.consumers);
+                    case WAITING -> waiting(Main.consumerArrayList);
                     case GOING -> going();
                     case GETTING_ORDER -> gettingOrder();
                     case FULFILL_ORDER -> fulfillOrder();
@@ -40,7 +41,7 @@ public class Waiter extends Thread {
         }
     }
 
-    public void going() throws InterruptedException {
+    public synchronized void going() throws InterruptedException {
         status = Status.GOING;
         sleep(getTimeSleep());
     }
@@ -55,7 +56,7 @@ public class Waiter extends Thread {
         status = Status.WAITING;
     }
 
-    public void waiting(Consumer[] consumerList) throws InterruptedException {
+    public void waiting(ArrayList<Consumer> consumerList) throws InterruptedException {
         sleep(1000);
         for (Consumer value : consumerList) {
             {
@@ -80,6 +81,7 @@ public class Waiter extends Thread {
     }
 
     public String toString() {
-        return name + " id = " + id + " " + status;
+
+        return String.format("%-15s%n id = %s %s", name, id, status);
     }
 }
