@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 
@@ -17,16 +18,22 @@ public class Window extends JFrame {
         this.setLocationRelativeTo(null);
 
         content = new JPanel(new VerticalLayout());
+        content.setBackground(Color.BLACK);
+
 
         labelsWaiter = new ArrayList<>();
         for (int i = 0; i < waiterList.size(); i++) {
-            labelsWaiter.add(new JLabel(waiterList.get(i).toString()));
+            JLabel temp = new JLabel(waiterList.get(i).toString());
+            temp.setForeground(Color.CYAN);
+            labelsWaiter.add(temp);
             content.add(labelsWaiter.get(i));
         }
 
         labelsConsumer = new ArrayList<>();
         for (int i = 0; i < consumerList.size(); i++) {
-            labelsConsumer.add(new JLabel(consumerList.get(i).toString()));
+            JLabel temp = new JLabel(consumerList.get(i).toString());
+            temp.setForeground(Color.GREEN);
+            labelsConsumer.add(temp);
             content.add(labelsConsumer.get(i));
         }
 
