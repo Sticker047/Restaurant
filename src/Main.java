@@ -41,6 +41,9 @@ public class Main {
         names.add("Дмитрий");
         names.add("Мефодий");
         names.add("Карл");
+        names.add("Франческо");
+        names.add("Диего");
+        names.add("Ричард");
 
         Random random = new Random();
 
@@ -61,10 +64,6 @@ public class Main {
     }
 
     public static void addConsumer() {
-
-//        Random random = new Random(6);
-//        if (random.nextInt() <= 5) return;
-//
         consumerArrayList.add(new Consumer(nameFactory()));
     }
 }

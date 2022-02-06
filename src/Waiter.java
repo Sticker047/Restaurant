@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Waiter extends Thread {
 
@@ -43,20 +42,20 @@ public class Waiter extends Thread {
 
     public synchronized void going() throws InterruptedException {
         status = Status.GOING;
-        sleep(getTimeSleep());
+        sleep(Utils.getTimeSleep());
     }
 
     public void gettingOrder() throws InterruptedException {
-        sleep(getTimeSleep());
+        sleep(Utils.getTimeSleep());
         status = Status.FULFILL_ORDER;
     }
 
     public void fulfillOrder() throws InterruptedException {
-        sleep(getTimeSleep());
+        sleep(Utils.getTimeSleep());
         status = Status.WAITING;
     }
 
-    public void waiting(ArrayList<Consumer> consumerList) throws InterruptedException {
+    public synchronized void waiting(ArrayList<Consumer> consumerList) throws InterruptedException {
         sleep(1000);
         for (Consumer value : consumerList) {
             {
@@ -68,16 +67,6 @@ public class Waiter extends Thread {
                 break;
             }
         }
-    }
-
-    public static int getTimeSleep() {
-        final Random random = new Random();
-        int tm = random.nextInt(10000);
-        if (tm < 100)
-            tm *= 100;
-        else if (tm < 1000)
-            tm *= 10;
-        return tm;
     }
 
     public String toString() {

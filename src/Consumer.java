@@ -45,12 +45,12 @@ public class Consumer extends Thread {
     }
 
     public void lookingForTable() throws InterruptedException {
-        sleep(Waiter.getTimeSleep());
+        sleep(Utils.getTimeSleep());
         status = Status.WAITING;
     }
 
     public void waiting() throws InterruptedException {
-        sleep(Waiter.getTimeSleep());
+        sleep(Utils.getTimeSleep());
     }
 
     public void createOrder() {
@@ -61,16 +61,20 @@ public class Consumer extends Thread {
     }
 
     public void eating() throws InterruptedException {
-        sleep(Waiter.getTimeSleep());
+        sleep(Utils.getTimeSleep());
         status = Status.PAYING;
     }
 
     public void paying() throws InterruptedException {
-        sleep(Waiter.getTimeSleep());
+        sleep(Utils.getTimeSleep());
         status = Status.FINISHED;
     }
 
-    public Status getStatus() {
+    public synchronized Status getStatus() {
+        if (status == Status.WAITING) {
+            status = Status.EATING;
+            return Status.WAITING;
+        }
         return status;
     }
 
